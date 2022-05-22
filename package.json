@@ -1,0 +1,26 @@
+{
+  "name": "hardhat-accounts",
+  "version": "0.0.0",
+  "license": "MIT",
+  "description": "Output Solidity contract sizes with Hardhat",
+  "keywords": [
+    "hardhat",
+    "buidler",
+    "accounts",
+    "ethers",
+    "smart-contracts",
+    "ethereum",
+    "blockchain",
+    "wow"
+  ],
+  "repository": "https://github.com/ItsNickBarry/hardhat-accounts",
+  "author": "Nick Barry",
+  "main": "index.js",
+  "peerDependencies": {
+    "hardhat": "^2.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.16.0",
+    "hardhat": "^2.9.6"
+  }
+}
