@@ -32,10 +32,25 @@ task(
     },
   });
 
+  const formatBalance = (balance) => {
+    const decimals = 18;
+
+    const padded = BigInt(balance).toString().padStart(decimals, '0');
+
+    let integer = padded.slice(0, padded.length - decimals);
+    let decimal = padded.slice(padded.length - decimals);
+
+    if (integer.length == 0) {
+      decimal = decimal.replace(/^(0*)(?=.)/, '');
+    }
+
+    return `${ (integer) }${ chalk.gray(decimal) }`;
+  }
+
   for (let i = 0; i < accounts.length; i++) {
     table.push([
       { content: accounts[i] },
-      { content: balances[i] },
+      { content: formatBalance(balances[i]), hAlign: 'right' },
     ]);
   }
 
