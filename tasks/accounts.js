@@ -12,7 +12,7 @@ task(
   ));
 
   const table = new Table({
-    head: [chalk.bold('Account'), chalk.bold('Native Balance (wei)')],
+    head: ['', chalk.bold('Account'), chalk.bold('Native Balance (wei)')],
     style: { head: [], border: [], 'padding-left': 2, 'padding-right': 2 },
     chars: {
       mid: '·',
@@ -55,6 +55,7 @@ task(
 
   for (let i = 0; i < accounts.length; i++) {
     table.push([
+      { content: i, hAlign: 'right' },
       { content: formatAccount(accounts[i]) },
       { content: formatBalance(balances[i]), hAlign: 'right' },
     ]);
