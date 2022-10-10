@@ -1,9 +1,15 @@
 task(
   'accounts', 'Output list of available accounts'
 ).setAction(async function (args, hre) {
-  const accounts = await hre.ethers.getSigners();
+  const { provider } = hre.network;
 
-  for (const account of accounts) {
-    console.log(account.address);
+  const accounts = await provider.send('eth_accounts');
+  const balances = await Promise.all(accounts.map(
+    account => provider.send('eth_getBalance', [account])
+  ));
+
+  for (let i = 0; i < accounts.length; i++) {
+    console.log(accounts[i]);
+    console.log(balances[i]);
   }
 });
