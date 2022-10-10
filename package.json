@@ -1,5 +1,5 @@
 {
-  "name": "hardhat-accounts",
+  "name": "@solidstate/hardhat-accounts",
   "version": "0.0.0",
   "license": "MIT",
   "description": "Output Solidity contract sizes with Hardhat",
@@ -13,7 +13,7 @@
     "blockchain",
     "wow"
   ],
-  "repository": "https://github.com/ItsNickBarry/hardhat-accounts",
+  "repository": "github:solidstate-network/hardhat-accounts",
   "author": "Nick Barry",
   "main": "index.js",
   "peerDependencies": {
@@ -22,5 +22,8 @@
   "devDependencies": {
     "eslint": "^8.16.0",
     "hardhat": "^2.9.6"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

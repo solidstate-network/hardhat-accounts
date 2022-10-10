@@ -5,7 +5,9 @@ Output list of available accounts.
 ## Installation
 
 ```bash
-yarn add --dev hardhat-accounts
+npm install --save-dev @solidstate/hardhat-accounts
+# or
+yarn add --dev @solidstate/hardhat-accounts
 ```
 
 ## Usage
@@ -13,11 +15,13 @@ yarn add --dev hardhat-accounts
 Load plugin in Hardhat config:
 
 ```javascript
-require('hardhat-accounts');
+require('@solidstate/hardhat-accounts');
 ```
 
 Run the included Hardhat task to output available accounts:
 
 ```bash
+npx hardhat accounts
+# or
 yarn run hardhat accounts
 ```
