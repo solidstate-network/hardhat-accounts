@@ -32,6 +32,12 @@ task(
     },
   });
 
+  const formatAccount = (account) => {
+    // if ethers library is present, checksum address
+    // if not, who cares?
+    return hre.ethers?.utils?.getAddress?.(account) || account;
+  }
+
   const formatBalance = (balance) => {
     const decimals = 18;
 
@@ -49,7 +55,7 @@ task(
 
   for (let i = 0; i < accounts.length; i++) {
     table.push([
-      { content: accounts[i] },
+      { content: formatAccount(accounts[i]) },
       { content: formatBalance(balances[i]), hAlign: 'right' },
     ]);
   }
