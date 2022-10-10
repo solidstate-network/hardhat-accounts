@@ -20,8 +20,8 @@
     "hardhat": "^2.0.0"
   },
   "devDependencies": {
-    "eslint": "^8.16.0",
-    "hardhat": "^2.9.6"
+    "eslint": "^8.25.0",
+    "hardhat": "^2.11.2"
   },
   "publishConfig": {
     "access": "public"
