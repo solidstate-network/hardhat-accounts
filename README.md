@@ -1,4 +1,4 @@
-# Hardhat Contract Sizer
+# Hardhat Accounts
 
 Output list of available accounts.
 
