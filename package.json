@@ -2,7 +2,7 @@
   "name": "@solidstate/hardhat-accounts",
   "version": "0.0.0",
   "license": "MIT",
-  "description": "Output Solidity contract sizes with Hardhat",
+  "description": "Output accounts with Hardhat",
   "keywords": [
     "hardhat",
     "buidler",
