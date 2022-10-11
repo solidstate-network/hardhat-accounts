@@ -92,7 +92,7 @@ task(
     table.push([
       {
         hAlign: 'right',
-        content: i,
+        content: chalk.gray(i),
       },
       {
         colSpan: 3,
