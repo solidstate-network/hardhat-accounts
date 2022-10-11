@@ -41,19 +41,19 @@ task(
     {
       hAlign: 'center',
       colSpan: 2,
-      content: chalk.grey(`Network: ${ hre.network.name }`),
+      content: chalk.gray(`Network: ${ hre.network.name }`),
     },
     {
       hAlign: 'center',
-      content: chalk.grey(`Chain ID: ${ parseInt(chainId) }`),
+      content: chalk.gray(`Chain ID: ${ parseInt(chainId) }`),
     },
     {
       hAlign: 'center',
-      content: chalk.grey(`Block Number: ${ parseInt(blockNumber)}`)
+      content: chalk.gray(`Block Number: ${ parseInt(blockNumber)}`)
     },
     {
       hAlign: 'center',
-      content: chalk.grey(`Timestamp: ${ parseInt(timestamp)}`)
+      content: chalk.gray(`Timestamp: ${ parseInt(timestamp)}`)
     }
   ]);
 
