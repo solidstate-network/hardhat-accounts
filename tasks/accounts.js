@@ -11,8 +11,13 @@ task(
     account => provider.send('eth_getBalance', [account])
   ));
 
+  const chainId = await provider.send('eth_chainId');
+  const blockNumber = await provider.send('eth_blockNumber');
+  const { timestamp } = await provider.send('eth_getBlockByNumber', [blockNumber, false]);
+
   const table = new Table({
-    head: ['', chalk.bold('Account'), chalk.bold('Native Balance (wei)')],
+    // set width of first column dynamically
+    colWidths: [4 + accounts.length.toString().length],
     style: { head: [], border: [], 'padding-left': 2, 'padding-right': 2 },
     chars: {
       mid: '·',
@@ -31,6 +36,36 @@ task(
       'bottom-mid': '|',
     },
   });
+
+  table.push([
+    {
+      hAlign: 'center',
+      colSpan: 2,
+      content: chalk.grey(`Network: ${ hre.network.name }`),
+    },
+    {
+      hAlign: 'center',
+      content: chalk.grey(`Chain ID: ${ parseInt(chainId) }`),
+    },
+    {
+      hAlign: 'center',
+      content: chalk.grey(`Block Number: ${ parseInt(blockNumber)}`)
+    },
+    {
+      hAlign: 'center',
+      content: chalk.grey(`Timestamp: ${ parseInt(timestamp)}`)
+    }
+  ]);
+
+  table.push([
+    {
+      colSpan: 4,
+      content: chalk.bold('Account'),
+    },
+    {
+      content: chalk.bold('Native Balance (wei)'),
+    }
+  ]);
 
   const formatAccount = (account) => {
     // if ethers library is present, checksum address
@@ -55,9 +90,18 @@ task(
 
   for (let i = 0; i < accounts.length; i++) {
     table.push([
-      { content: i, hAlign: 'right' },
-      { content: formatAccount(accounts[i]) },
-      { content: formatBalance(balances[i]), hAlign: 'right' },
+      {
+        hAlign: 'right',
+        content: i,
+      },
+      {
+        colSpan: 3,
+        content: formatAccount(accounts[i]),
+      },
+      {
+        hAlign: 'right',
+        content: formatBalance(balances[i]),
+      },
     ]);
   }
 
