@@ -15,10 +15,12 @@ task(
   const blockNumber = await provider.send('eth_blockNumber');
   const { timestamp } = await provider.send('eth_getBlockByNumber', [blockNumber, false]);
 
+  const padding = 2;
+
   const table = new Table({
     // set width of first column dynamically
-    colWidths: [4 + accounts.length.toString().length],
-    style: { head: [], border: [], 'padding-left': 2, 'padding-right': 2 },
+    colWidths: [padding * 2 + accounts.length.toString().length],
+    style: { head: [], border: [], 'padding-left': padding, 'padding-right': padding },
     chars: {
       mid: '·',
       'top-mid': '|',
