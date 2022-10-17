@@ -1,6 +1,6 @@
 # Hardhat Accounts
 
-Output list of available accounts.
+Output list of available accounts and balances.
 
 ## Installation
 
