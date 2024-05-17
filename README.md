@@ -25,3 +25,17 @@ npx hardhat accounts
 # or
 yarn run hardhat accounts
 ```
+
+## Development
+
+Install dependencies via Yarn:
+
+```bash
+yarn install
+```
+
+Setup Husky to format code on commit:
+
+```bash
+yarn prepare
+```
