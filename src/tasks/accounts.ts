@@ -1,11 +1,12 @@
-const chalk = require('chalk');
-const Table = require('cli-table3');
+import chalk from 'chalk';
+import Table from 'cli-table3';
+import { task } from 'hardhat/config';
 
 task('accounts', 'Output list of available accounts').setAction(
   async function (args, hre) {
     const { provider } = hre.network;
 
-    const accounts = await provider.send('eth_accounts');
+    const accounts: string[] = await provider.send('eth_accounts');
     const balances = await Promise.all(
       accounts.map((account) => provider.send('eth_getBalance', [account])),
     );
@@ -76,13 +77,13 @@ task('accounts', 'Output list of available accounts').setAction(
       },
     ]);
 
-    const formatAccount = (account) => {
+    const formatAccount = (account: string) => {
       // if ethers library is present, checksum address
       // if not, who cares?
-      return hre.ethers?.utils?.getAddress?.(account) || account;
+      return (hre as any).ethers?.utils?.getAddress?.(account) ?? account;
     };
 
-    const formatBalance = (balance) => {
+    const formatBalance = (balance: string) => {
       const decimals = 18;
 
       const padded = BigInt(balance).toString().padStart(decimals, '0');
