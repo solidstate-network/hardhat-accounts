@@ -3,7 +3,7 @@ import Table from 'cli-table3';
 import { task } from 'hardhat/config';
 
 task('accounts', 'Output list of available accounts').setAction(
-  async function (args, hre) {
+  async (args, hre) => {
     const { provider } = hre.network;
 
     const accounts: string[] = await provider.send('eth_accounts');
