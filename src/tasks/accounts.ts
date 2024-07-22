@@ -7,8 +7,10 @@ task('accounts', 'Output list of available accounts').setAction(
     const { provider } = hre.network;
 
     const accounts: string[] = await provider.send('eth_accounts');
-    const balances = await Promise.all(
-      accounts.map((account) => provider.send('eth_getBalance', [account])),
+    const balances: bigint[] = await Promise.all(
+      accounts.map(async (account) =>
+        BigInt(await provider.send('eth_getBalance', [account])),
+      ),
     );
 
     const chainId = await provider.send('eth_chainId');
@@ -83,10 +85,10 @@ task('accounts', 'Output list of available accounts').setAction(
       return (hre as any).ethers?.utils?.getAddress?.(account) ?? account;
     };
 
-    const formatBalance = (balance: string) => {
+    const formatBalance = (balance: bigint) => {
       const decimals = 18;
 
-      const padded = BigInt(balance).toString().padStart(decimals, '0');
+      const padded = balance.toString().padStart(decimals, '0');
 
       let integer = padded.slice(0, padded.length - decimals);
       let decimal = padded.slice(padded.length - decimals);
