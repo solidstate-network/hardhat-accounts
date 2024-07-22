@@ -6,12 +6,18 @@ task('accounts', 'Output list of available accounts').setAction(
   async (args, hre) => {
     const { provider } = hre.network;
 
-    const accounts: string[] = await provider.send('eth_accounts');
+    const addresses: string[] = await provider.send('eth_accounts');
     const balances: bigint[] = await Promise.all(
-      accounts.map(async (account) =>
-        BigInt(await provider.send('eth_getBalance', [account])),
+      addresses.map(async (address) =>
+        BigInt(await provider.send('eth_getBalance', [address])),
       ),
     );
+
+    const accounts: { address: string; balance: bigint }[] = [];
+
+    for (let i = 0; i < addresses.length; i++) {
+      accounts.push({ address: addresses[i], balance: balances[i] });
+    }
 
     const chainId = await provider.send('eth_chainId');
     const blockNumber = await provider.send('eth_blockNumber');
@@ -79,7 +85,7 @@ task('accounts', 'Output list of available accounts').setAction(
       },
     ]);
 
-    const formatAccount = (account: string) => {
+    const formatAddress = (account: string) => {
       // if ethers library is present, checksum address
       // if not, who cares?
       return (hre as any).ethers?.utils?.getAddress?.(account) ?? account;
@@ -101,6 +107,8 @@ task('accounts', 'Output list of available accounts').setAction(
     };
 
     for (let i = 0; i < accounts.length; i++) {
+      const { address, balance } = accounts[i];
+
       table.push([
         {
           hAlign: 'right',
@@ -108,15 +116,17 @@ task('accounts', 'Output list of available accounts').setAction(
         },
         {
           colSpan: 3,
-          content: formatAccount(accounts[i]),
+          content: formatAddress(address),
         },
         {
           hAlign: 'right',
-          content: formatBalance(balances[i]),
+          content: formatBalance(balance),
         },
       ]);
     }
 
     console.log(table.toString());
+
+    return accounts;
   },
 );
