@@ -6,10 +6,17 @@ task('accounts', 'Output list of available accounts').setAction(
   async (args, hre) => {
     const { provider } = hre.network;
 
+    const chainId = await provider.send('eth_chainId');
+    const blockNumber = await provider.send('eth_blockNumber');
+    const { timestamp } = await provider.send('eth_getBlockByNumber', [
+      blockNumber,
+      false,
+    ]);
+
     const addresses: string[] = await provider.send('eth_accounts');
     const balances: bigint[] = await Promise.all(
       addresses.map(async (address) =>
-        BigInt(await provider.send('eth_getBalance', [address])),
+        BigInt(await provider.send('eth_getBalance', [address, blockNumber])),
       ),
     );
 
@@ -18,13 +25,6 @@ task('accounts', 'Output list of available accounts').setAction(
     for (let i = 0; i < addresses.length; i++) {
       accounts.push({ address: addresses[i], balance: balances[i] });
     }
-
-    const chainId = await provider.send('eth_chainId');
-    const blockNumber = await provider.send('eth_blockNumber');
-    const { timestamp } = await provider.send('eth_getBlockByNumber', [
-      blockNumber,
-      false,
-    ]);
 
     const padding = 2;
 
