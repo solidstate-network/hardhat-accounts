@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import hre from 'hardhat';
 
+const TASK_NAME = 'accounts';
+
 const DEFAULT_ADDRESSES = [
   '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
   '0x70997970C51812dc3A010C7d01b50e0d17dc79C8',
@@ -24,9 +26,11 @@ const DEFAULT_ADDRESSES = [
   '0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199',
 ];
 
-describe('accounts', () => {
-  it('returns array of account addresses and balances', async () => {
-    const accounts = await hre.run('accounts');
+describe(TASK_NAME, () => {
+  it('returns array of account addresses and balances on Hardhat network', async () => {
+    await hre.changeNetwork('hardhat');
+
+    const accounts = await hre.run(TASK_NAME);
 
     expect(accounts).to.have.lengthOf(DEFAULT_ADDRESSES.length);
 
@@ -39,5 +43,15 @@ describe('accounts', () => {
       );
       expect(balance).to.equal(10000000000000000000000n);
     }
+  });
+
+  it('returns array of account addresses and balances on external networks', async () => {
+    await hre.changeNetwork('ethereum');
+
+    expect(await hre.run(TASK_NAME)).to.have.lengthOf(DEFAULT_ADDRESSES.length);
+
+    await hre.changeNetwork('arbitrum');
+
+    expect(await hre.run(TASK_NAME)).to.have.lengthOf(DEFAULT_ADDRESSES.length);
   });
 });
