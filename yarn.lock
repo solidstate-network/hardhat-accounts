@@ -1480,7 +1480,7 @@ graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.1.9:
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.11.tgz#4183e4e8bf08bb6e05bbb2f7d2e0c8f712ca40e3"
   integrity sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==
 
-"hardhat-change-network@git+https://github.com/Whynot63/hardhat-change-network.git":
+"hardhat-change-network@git+https://github.com/Whynot63/hardhat-change-network.git#1591d0be4f84db4b011804322d603aae8d8122ff":
   version "0.1.0"
   resolved "git+https://github.com/Whynot63/hardhat-change-network.git#1591d0be4f84db4b011804322d603aae8d8122ff"
 

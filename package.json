@@ -40,7 +40,7 @@
     "@types/mocha": "^10.0.6",
     "chai": "^4.4.1",
     "hardhat": "^2.22.4",
-    "hardhat-change-network": "git+https://github.com/Whynot63/hardhat-change-network.git",
+    "hardhat-change-network": "git+https://github.com/Whynot63/hardhat-change-network.git#1591d0be4f84db4b011804322d603aae8d8122ff",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
