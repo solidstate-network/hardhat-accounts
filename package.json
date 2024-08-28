@@ -19,8 +19,7 @@
   "types": "dist/src/index.d.ts",
   "scripts": {
     "build": "tsc --build",
-    "postinstall": "if [ $(pwd) != *'node_modules'* ]; then cd node_modules/hardhat-change-network/ && yarn build; fi",
-    "prepare": "husky",
+    "prepare": "husky; cd node_modules/hardhat-change-network/ && yarn build",
     "prettier": "prettier --write ."
   },
   "files": [
