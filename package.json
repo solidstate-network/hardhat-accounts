@@ -30,21 +30,21 @@
     "hardhat": "^2.0.0"
   },
   "dependencies": {
-    "chalk": "^4.1.2",
+    "chalk": "^5.4.1",
     "cli-table3": "^0.6.5"
   },
   "devDependencies": {
-    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
-    "@types/chai": "^4.3.16",
-    "@types/mocha": "^10.0.6",
-    "chai": "^4.4.1",
-    "hardhat": "^2.22.4",
+    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
+    "@types/chai": "^5.2.1",
+    "@types/mocha": "^10.0.10",
+    "chai": "^5.2.0",
+    "hardhat": "^2.22.19",
     "hardhat-change-network": "git+https://github.com/Whynot63/hardhat-change-network.git#1591d0be4f84db4b011804322d603aae8d8122ff",
-    "husky": "^9.0.11",
-    "lint-staged": "^15.2.2",
-    "prettier": "^3.2.5",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.0",
+    "prettier": "^3.5.3",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.5"
+    "typescript": "^5.8.3"
   },
   "publishConfig": {
     "access": "public"
