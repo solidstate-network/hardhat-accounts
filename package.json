@@ -20,7 +20,7 @@
   "types": "dist/src/index.d.ts",
   "scripts": {
     "build": "tsc --build",
-    "prepare": "husky; cd node_modules/hardhat-change-network/ && yarn build",
+    "prepare": "husky",
     "prettier": "prettier --write ."
   },
   "files": [
@@ -40,7 +40,6 @@
     "@types/mocha": "^10.0.10",
     "chai": "^5.2.0",
     "hardhat": "3.0.0-next.3",
-    "hardhat-change-network": "git+https://github.com/Whynot63/hardhat-change-network.git#1591d0be4f84db4b011804322d603aae8d8122ff",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.0",
     "prettier": "^3.5.3",

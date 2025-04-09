@@ -1,5 +1,4 @@
 import './src/index';
-import 'hardhat-change-network';
 import { HardhatUserConfig } from 'hardhat/config';
 
 const config: HardhatUserConfig = {
