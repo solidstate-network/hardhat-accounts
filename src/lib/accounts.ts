@@ -39,22 +39,17 @@ export const printAccounts = async (
   // if 'latest' is used for block lookup, convert to fixed value for subsequent requests
   blockNumber = block.number;
 
-  const balances: bigint[] = await Promise.all(
-    accounts.map(async (address) =>
-      BigInt(
+  const entries = await Promise.all(
+    accounts.map(async (account) => ({
+      address: account,
+      balance: BigInt(
         (await provider.request({
           method: 'eth_getBalance',
-          params: [address, blockNumber],
+          params: [account, blockNumber],
         })) as string,
       ),
-    ),
+    })),
   );
-
-  const entries: { address: string; balance: bigint }[] = [];
-
-  for (let i = 0; i < accounts.length; i++) {
-    entries.push({ address: accounts[i], balance: balances[i] });
-  }
 
   const padding = 2;
 
