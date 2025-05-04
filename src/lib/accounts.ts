@@ -12,9 +12,28 @@ export const getAccounts = async (
   })) as string[];
 };
 
+export const getBalances = async (
+  network: NetworkConnection,
+  accounts?: string[],
+  blockNumber: string = 'latest',
+): Promise<bigint[]> => {
+  accounts ??= await getAccounts(network);
+
+  return await Promise.all(
+    accounts.map(async (account) =>
+      BigInt(
+        (await network.provider.request({
+          method: 'eth_getBalance',
+          params: [account, blockNumber],
+        })) as string,
+      ),
+    ),
+  );
+};
+
 export const printAccounts = async (
   network: NetworkConnection,
-  accounts: string[],
+  accounts?: string[],
   blockNumber: string = 'latest',
 ) => {
   const { provider } = network;
@@ -39,17 +58,13 @@ export const printAccounts = async (
   // if 'latest' is used for block lookup, convert to fixed value for subsequent requests
   blockNumber = block.number;
 
-  const entries = await Promise.all(
-    accounts.map(async (account) => ({
-      address: account,
-      balance: BigInt(
-        (await provider.request({
-          method: 'eth_getBalance',
-          params: [account, blockNumber],
-        })) as string,
-      ),
-    })),
-  );
+  accounts ??= await getAccounts(network);
+  const balances = await getBalances(network, accounts, blockNumber);
+
+  const entries = accounts.map((account, i) => ({
+    address: account,
+    balance: balances[i],
+  }));
 
   const padding = 2;
 
