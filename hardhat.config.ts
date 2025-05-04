@@ -1,7 +1,8 @@
-import './src/index';
+import HardhatAccounts from './src/index.js';
 import { HardhatUserConfig } from 'hardhat/config';
 
 const config: HardhatUserConfig = {
+  plugins: [HardhatAccounts],
   networks: {
     ethereum: {
       url: 'https://eth.llamarpc.com',
