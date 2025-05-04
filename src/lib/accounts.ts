@@ -1,5 +1,7 @@
+import pkg from '../../package.json';
 import chalk from 'chalk';
 import Table from 'cli-table3';
+import { HardhatPluginError } from 'hardhat/plugins';
 import { NetworkConnection } from 'hardhat/types/network';
 
 export const getAccounts = async (
@@ -13,19 +15,29 @@ export const getAccounts = async (
 export const printAccounts = async (
   network: NetworkConnection,
   accounts: string[],
+  blockNumber?: string,
 ) => {
   const { provider } = network;
 
   const chainId = (await provider.request({ method: 'eth_chainId' })) as string;
 
-  const blockNumber = (await provider.request({
+  blockNumber ||= (await provider.request({
     method: 'eth_blockNumber',
   })) as string;
 
-  const { timestamp } = (await provider.request({
+  const block = (await provider.request({
     method: 'eth_getBlockByNumber',
     params: [blockNumber, false],
-  })) as { timestamp: string };
+  })) as { timestamp: string } | null;
+
+  if (!block) {
+    throw new HardhatPluginError(
+      pkg.name,
+      `No block found with number ${blockNumber}`,
+    );
+  }
+
+  const { timestamp } = block;
 
   const balances: bigint[] = await Promise.all(
     accounts.map(async (address) =>
