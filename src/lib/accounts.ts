@@ -4,7 +4,7 @@ import Table from 'cli-table3';
 import { HardhatPluginError } from 'hardhat/plugins';
 import type { NetworkConnection } from 'hardhat/types/network';
 
-export const getAccounts = async (
+export const getAddresses = async (
   network: NetworkConnection,
 ): Promise<string[]> => {
   return (await network.provider.request({
@@ -14,17 +14,17 @@ export const getAccounts = async (
 
 export const getBalances = async (
   network: NetworkConnection,
-  accounts?: string[],
+  addresses?: string[],
   blockNumber: string = 'latest',
 ): Promise<bigint[]> => {
-  accounts ??= await getAccounts(network);
+  addresses ??= await getAddresses(network);
 
   return await Promise.all(
-    accounts.map(async (account) =>
+    addresses.map(async (address) =>
       BigInt(
         (await network.provider.request({
           method: 'eth_getBalance',
-          params: [account, blockNumber],
+          params: [address, blockNumber],
         })) as string,
       ),
     ),
@@ -58,7 +58,7 @@ export const printAccounts = async (
   // if 'latest' is used for block lookup, convert to fixed value for subsequent requests
   blockNumber = block.number;
 
-  accounts ??= await getAccounts(network);
+  accounts ??= await getAddresses(network);
   const balances = await getBalances(network, accounts, blockNumber);
 
   const entries = accounts.map((account, i) => ({

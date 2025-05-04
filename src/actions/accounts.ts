@@ -1,4 +1,4 @@
-import { getAccounts, printAccounts } from '../lib/accounts.js';
+import { getAddresses, printAccounts } from '../lib/accounts.js';
 import type { NewTaskActionFunction } from 'hardhat/types/tasks';
 
 interface AccountsActionArguments {
@@ -10,7 +10,7 @@ const action: NewTaskActionFunction<AccountsActionArguments> = async (
   hre,
 ) => {
   const network = await hre.network.connect();
-  const accounts = await getAccounts(network);
+  const accounts = await getAddresses(network);
   await printAccounts(network, accounts, args.blockNumber || undefined);
   return accounts;
 };
