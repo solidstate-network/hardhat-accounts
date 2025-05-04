@@ -20,7 +20,6 @@ export const printAccounts = async (
   const { provider } = network;
 
   const chainId = (await provider.request({ method: 'eth_chainId' })) as string;
-  await provider.request({ method: 'evm_mine' });
 
   const block = (await provider.request({
     method: 'eth_getBlockByNumber',
