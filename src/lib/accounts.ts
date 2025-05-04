@@ -4,46 +4,18 @@ import Table from 'cli-table3';
 import { HardhatPluginError } from 'hardhat/plugins';
 import type { NetworkConnection } from 'hardhat/types/network';
 
-export const getAddresses = async (
-  network: NetworkConnection,
-): Promise<string[]> => {
-  return (await network.provider.request({
-    method: 'eth_accounts',
-  })) as string[];
-};
+type Account = { address: string; balance: bigint };
 
-export const getBalances = async (
+type Block = { number: string; timestamp: string };
+
+export const getBlock = async (
   network: NetworkConnection,
-  addresses?: string[],
   blockNumber: string = 'latest',
-): Promise<bigint[]> => {
-  addresses ??= await getAddresses(network);
-
-  return await Promise.all(
-    addresses.map(async (address) =>
-      BigInt(
-        (await network.provider.request({
-          method: 'eth_getBalance',
-          params: [address, blockNumber],
-        })) as string,
-      ),
-    ),
-  );
-};
-
-export const printAccounts = async (
-  network: NetworkConnection,
-  accounts?: string[],
-  blockNumber: string = 'latest',
-) => {
-  const { provider } = network;
-
-  const chainId = (await provider.request({ method: 'eth_chainId' })) as string;
-
-  const block = (await provider.request({
+): Promise<Block> => {
+  const block = (await network.provider.request({
     method: 'eth_getBlockByNumber',
     params: [blockNumber, false],
-  })) as { number: string; timestamp: string } | null;
+  })) as Block | null;
 
   if (!block) {
     throw new HardhatPluginError(
@@ -52,25 +24,49 @@ export const printAccounts = async (
     );
   }
 
-  const { timestamp } = block;
+  return block;
+};
 
-  // if decimal number is used for block lookup, convert to hex
-  // if 'latest' is used for block lookup, convert to fixed value for subsequent requests
-  blockNumber = block.number;
+export const getAccounts = async (
+  network: NetworkConnection,
+  block: Block,
+  addresses?: string[],
+): Promise<Account[]> => {
+  addresses ??= (await network.provider.request({
+    method: 'eth_accounts',
+  })) as string[];
 
-  accounts ??= await getAddresses(network);
-  const balances = await getBalances(network, accounts, blockNumber);
+  const balances = await Promise.all(
+    addresses.map(async (address) =>
+      BigInt(
+        (await network.provider.request({
+          method: 'eth_getBalance',
+          params: [address, block.number],
+        })) as string,
+      ),
+    ),
+  );
 
-  const entries = accounts.map((account, i) => ({
-    address: account,
+  return addresses.map((address, i) => ({
+    address,
     balance: balances[i],
   }));
+};
+
+export const printAccounts = async (
+  network: NetworkConnection,
+  block: Block,
+  accounts: Account[],
+) => {
+  const chainId = (await network.provider.request({
+    method: 'eth_chainId',
+  })) as string;
 
   const padding = 2;
 
   const table = new Table({
     // set width of first column dynamically
-    colWidths: [padding * 2 + entries.length.toString().length],
+    colWidths: [padding * 2 + accounts.length.toString().length],
     style: {
       head: [],
       border: [],
@@ -107,11 +103,11 @@ export const printAccounts = async (
     },
     {
       hAlign: 'center',
-      content: chalk.gray(`Block Number: ${parseInt(blockNumber)}`),
+      content: chalk.gray(`Block Number: ${parseInt(block.number)}`),
     },
     {
       hAlign: 'center',
-      content: chalk.gray(`Timestamp: ${parseInt(timestamp)}`),
+      content: chalk.gray(`Timestamp: ${parseInt(block.timestamp)}`),
     },
   ]);
 
@@ -125,12 +121,12 @@ export const printAccounts = async (
     },
   ]);
 
-  const formatAddress = (account: string) => {
+  const formatAddress = (address: string) => {
     // if ethers library is present, checksum address
     // if not, who cares?
     // TODO: checksum
-    // return (hre as any).ethers?.utils?.getAddress?.(account) ?? account;
-    return account;
+    // return (hre as any).ethers?.utils?.getAddress?.(address) ?? address;
+    return address;
   };
 
   const formatBalance = (balance: bigint) => {
@@ -148,8 +144,8 @@ export const printAccounts = async (
     return `${integer}${chalk.gray(decimal)}`;
   };
 
-  for (let i = 0; i < entries.length; i++) {
-    const { address, balance } = entries[i];
+  for (let i = 0; i < accounts.length; i++) {
+    const { address, balance } = accounts[i];
 
     table.push([
       {
@@ -168,6 +164,4 @@ export const printAccounts = async (
   }
 
   console.log(table.toString());
-
-  return entries;
 };

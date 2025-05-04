@@ -1,4 +1,4 @@
-import { getAddresses, printAccounts } from '../lib/accounts.js';
+import { getAccounts, getBlock, printAccounts } from '../lib/accounts.js';
 import type { NewTaskActionFunction } from 'hardhat/types/tasks';
 
 interface AccountsActionArguments {
@@ -10,8 +10,16 @@ const action: NewTaskActionFunction<AccountsActionArguments> = async (
   hre,
 ) => {
   const network = await hre.network.connect();
-  const accounts = await getAddresses(network);
-  await printAccounts(network, accounts, args.blockNumber || undefined);
+
+  // block is used instead of blockNumber for several reasons:
+  // * decimal number must be converted to hex for eth_getBalance request
+  // * 'latest' must be converted to fixed value to prevent race conditions
+  // * both block number and timestamp are needed for table output
+  const block = await getBlock(network, args.blockNumber || undefined);
+
+  // TODO: variadic addresses argument
+  const accounts = await getAccounts(network, block);
+  await printAccounts(network, block, accounts);
   return accounts;
 };
 
