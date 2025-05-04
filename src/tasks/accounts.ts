@@ -2,8 +2,9 @@ import chalk from 'chalk';
 import Table from 'cli-table3';
 import { task } from 'hardhat/config';
 
-task('accounts', 'Output list of available accounts').setAction(
-  async (args, hre) => {
+export default task('accounts')
+  .setDescription('Output list of available accounts')
+  .setAction(async (args, hre) => {
     const { provider } = hre.network;
 
     const chainId = await provider.send('eth_chainId');
@@ -128,5 +129,5 @@ task('accounts', 'Output list of available accounts').setAction(
     console.log(table.toString());
 
     return accounts;
-  },
-);
+  })
+  .build();
