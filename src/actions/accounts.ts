@@ -2,6 +2,7 @@ import { getAccounts, getBlock, printAccounts } from '../lib/accounts.js';
 import type { NewTaskActionFunction } from 'hardhat/types/tasks';
 
 interface AccountsActionArguments {
+  addresses: string[];
   blockNumber: string;
 }
 
@@ -17,9 +18,14 @@ const action: NewTaskActionFunction<AccountsActionArguments> = async (
   // * both block number and timestamp are needed for table output
   const block = await getBlock(network, args.blockNumber || undefined);
 
-  // TODO: variadic addresses argument
-  const accounts = await getAccounts(network, block);
+  const accounts = await getAccounts(
+    network,
+    block,
+    args.addresses.length ? args.addresses : undefined,
+  );
+
   await printAccounts(network, block, accounts);
+
   return accounts;
 };
 
