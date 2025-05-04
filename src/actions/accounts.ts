@@ -3,19 +3,29 @@ import Table from 'cli-table3';
 import type { NewTaskActionFunction } from 'hardhat/types/tasks';
 
 const action: NewTaskActionFunction = async (args, hre) => {
-  const { provider } = hre.network;
+  const network = await hre.network.connect();
+  const { provider } = network;
 
-  const chainId = await provider.send('eth_chainId');
-  const blockNumber = await provider.send('eth_blockNumber');
-  const { timestamp } = await provider.send('eth_getBlockByNumber', [
-    blockNumber,
-    false,
-  ]);
+  const chainId = (await provider.request({ method: 'eth_chainId' })) as string;
+  const blockNumber = (await provider.request({
+    method: 'eth_blockNumber',
+  })) as string;
+  const { timestamp } = (await provider.request({
+    method: 'eth_getBlockByNumber',
+    params: [blockNumber, false],
+  })) as { timestamp: string };
 
-  const addresses: string[] = await provider.send('eth_accounts');
+  const addresses: string[] = (await provider.request({
+    method: 'eth_accounts',
+  })) as string[];
   const balances: bigint[] = await Promise.all(
     addresses.map(async (address) =>
-      BigInt(await provider.send('eth_getBalance', [address, blockNumber])),
+      BigInt(
+        (await provider.request({
+          method: 'eth_getBalance',
+          params: [address, blockNumber],
+        })) as string,
+      ),
     ),
   );
 
@@ -58,7 +68,7 @@ const action: NewTaskActionFunction = async (args, hre) => {
     {
       hAlign: 'center',
       colSpan: 2,
-      content: chalk.gray(`Network: ${hre.network.name}`),
+      content: chalk.gray(`Network: ${network.networkName}`),
     },
     {
       hAlign: 'center',
