@@ -2,7 +2,7 @@ import pkg from '../../package.json';
 import chalk from 'chalk';
 import Table from 'cli-table3';
 import { HardhatPluginError } from 'hardhat/plugins';
-import { NetworkConnection } from 'hardhat/types/network';
+import type { NetworkConnection } from 'hardhat/types/network';
 
 export const getAccounts = async (
   network: NetworkConnection,
