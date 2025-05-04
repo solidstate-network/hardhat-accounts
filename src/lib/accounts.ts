@@ -15,15 +15,12 @@ export const getAccounts = async (
 export const printAccounts = async (
   network: NetworkConnection,
   accounts: string[],
-  blockNumber?: string,
+  blockNumber: string = 'latest',
 ) => {
   const { provider } = network;
 
   const chainId = (await provider.request({ method: 'eth_chainId' })) as string;
   await provider.request({ method: 'evm_mine' });
-  blockNumber ??= (await provider.request({
-    method: 'eth_blockNumber',
-  })) as string;
 
   const block = (await provider.request({
     method: 'eth_getBlockByNumber',
