@@ -15,7 +15,13 @@ yarn add --dev @solidstate/hardhat-accounts
 Load plugin in Hardhat config:
 
 ```javascript
-require('@solidstate/hardhat-accounts');
+import HardhatAccounts from '@solidstate/hardhat-accounts';
+
+const config: HardhatUserConfig = {
+  plugins: [
+    HardhatAccounts,
+  ],
+};
 ```
 
 Run the included Hardhat task to output available accounts:
