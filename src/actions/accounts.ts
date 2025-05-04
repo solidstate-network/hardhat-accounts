@@ -11,7 +11,7 @@ const action: NewTaskActionFunction<AccountsActionArguments> = async (
 ) => {
   const network = await hre.network.connect();
   const accounts = await getAccounts(network);
-  await printAccounts(network, accounts, args.blockNumber);
+  await printAccounts(network, accounts, args.blockNumber || undefined);
   return accounts;
 };
 

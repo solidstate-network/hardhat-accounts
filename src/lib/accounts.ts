@@ -20,15 +20,15 @@ export const printAccounts = async (
   const { provider } = network;
 
   const chainId = (await provider.request({ method: 'eth_chainId' })) as string;
-
-  blockNumber ||= (await provider.request({
+  await provider.request({ method: 'evm_mine' });
+  blockNumber ??= (await provider.request({
     method: 'eth_blockNumber',
   })) as string;
 
   const block = (await provider.request({
     method: 'eth_getBlockByNumber',
     params: [blockNumber, false],
-  })) as { timestamp: string } | null;
+  })) as { number: string; timestamp: string } | null;
 
   if (!block) {
     throw new HardhatPluginError(
@@ -38,6 +38,10 @@ export const printAccounts = async (
   }
 
   const { timestamp } = block;
+
+  // if decimal number is used for block lookup, convert to hex
+  // if 'latest' is used for block lookup, convert to fixed value for subsequent requests
+  blockNumber = block.number;
 
   const balances: bigint[] = await Promise.all(
     accounts.map(async (address) =>
