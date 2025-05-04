@@ -1,6 +1,7 @@
+import { TASK_ACCOUNTS } from '../task_names.js';
 import { task } from 'hardhat/config';
 
-export default task('accounts')
+export default task(TASK_ACCOUNTS)
   .setDescription('Output list of available accounts')
   .addOption({
     name: 'blockNumber',
