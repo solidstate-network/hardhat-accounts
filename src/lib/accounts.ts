@@ -12,6 +12,10 @@ export const getBlock = async (
   network: NetworkConnection,
   blockNumber: string = 'latest',
 ): Promise<Block> => {
+  if (blockNumber !== 'latest') {
+    blockNumber = `0x${BigInt(blockNumber).toString(16)}`;
+  }
+
   const block = (await network.provider.request({
     method: 'eth_getBlockByNumber',
     params: [blockNumber, false],
