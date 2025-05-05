@@ -45,7 +45,7 @@ export const getAccounts = async (
       BigInt(
         (await network.provider.request({
           method: 'eth_getBalance',
-          params: [address, BigInt(block.number).toString()],
+          params: [address, block.number],
         })) as string,
       ),
     ),
