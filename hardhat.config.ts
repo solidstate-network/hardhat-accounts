@@ -1,5 +1,5 @@
 import HardhatAccounts from './src/index.js';
-import { HardhatUserConfig } from 'hardhat/config';
+import type { HardhatUserConfig } from 'hardhat/config';
 
 const config: HardhatUserConfig = {
   plugins: [HardhatAccounts],
