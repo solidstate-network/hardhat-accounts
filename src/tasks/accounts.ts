@@ -1,5 +1,6 @@
 import { TASK_ACCOUNTS } from '../task_names.js';
 import { task } from 'hardhat/config';
+import { ArgumentType } from 'hardhat/types/arguments';
 
 export default task(TASK_ACCOUNTS)
   .setDescription('Output list of available accounts')
@@ -12,7 +13,8 @@ export default task(TASK_ACCOUNTS)
   .addOption({
     name: 'blockNumber',
     description: 'lock number to use for balance lookup',
-    defaultValue: '', // TODO: no default value
+    defaultValue: undefined,
+    type: ArgumentType.STRING_WITHOUT_DEFAULT,
   })
   .setAction(import.meta.resolve('../actions/accounts.js'))
   .build();
