@@ -1,4 +1,5 @@
-import { getAccounts, getBlock, printAccounts } from '../lib/accounts.js';
+import { getAccounts, getBlock } from '../lib/accounts.js';
+import { printAccounts } from '../lib/print.js';
 import type { NewTaskActionFunction } from 'hardhat/types/tasks';
 
 interface AccountsActionArguments {
