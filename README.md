@@ -7,7 +7,7 @@ Output list of available accounts and balances.
 ```bash
 npm install --save-dev @solidstate/hardhat-accounts
 # or
-yarn add --dev @solidstate/hardhat-accounts
+pnpm add -D @solidstate/hardhat-accounts
 ```
 
 ## Usage
@@ -29,19 +29,19 @@ Run the included Hardhat task to output available accounts:
 ```bash
 npx hardhat accounts
 # or
-yarn run hardhat accounts
+pnpm hardhat accounts
 ```
 
 ## Development
 
-Install dependencies via Yarn:
+Install dependencies via pnpm:
 
 ```bash
-yarn install
+pnpm install
 ```
 
 Setup Husky to format code on commit:
 
 ```bash
-yarn prepare
+pnpm prepare
 ```
