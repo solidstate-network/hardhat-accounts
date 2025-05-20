@@ -3,6 +3,18 @@ import chalk from 'chalk';
 import Table from 'cli-table3';
 import type { NetworkConnection } from 'hardhat/types/network';
 
+const tryImport = async (packageName: string) => {
+  try {
+    return await import(packageName);
+  } catch (error) {
+    // do nothing
+  }
+};
+
+const utilPackage = (await tryImport('ethers')) ?? (await tryImport('viem'));
+const formatAddress: (a: string) => string =
+  utilPackage?.getAddress ?? ((a: string) => a);
+
 export const printAccounts = async (
   network: NetworkConnection,
   block: Block,
@@ -70,14 +82,6 @@ export const printAccounts = async (
       content: chalk.bold('Native Balance (wei)'),
     },
   ]);
-
-  const formatAddress = (address: string) => {
-    // if ethers library is present, checksum address
-    // if not, who cares?
-    // TODO: checksum
-    // return (hre as any).ethers?.utils?.getAddress?.(address) ?? address;
-    return address;
-  };
 
   const formatBalance = (balance: bigint) => {
     const decimals = 18;
