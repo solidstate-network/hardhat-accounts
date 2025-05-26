@@ -133,7 +133,3 @@ describe('getAccounts', () => {
     }
   });
 });
-
-describe('printAccounts', () => {
-  it('todo');
-});
