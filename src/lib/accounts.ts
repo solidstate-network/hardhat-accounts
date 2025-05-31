@@ -1,4 +1,4 @@
-import pkg from '../../package.json';
+import pkg from '../../package.json' with { type: 'json' };
 import type { Block, Account } from '../types.js';
 import { HardhatPluginError } from 'hardhat/plugins';
 import type { NetworkConnection } from 'hardhat/types/network';
