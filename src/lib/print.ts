@@ -1,7 +1,7 @@
 import type { Block, Account } from '../types.js';
 import { formatAddress } from './address.js';
+import { createTable } from '@solidstate/hardhat-solidstate-utils/table';
 import chalk from 'chalk';
-import Table from 'cli-table3';
 import type { NetworkConnection } from 'hardhat/types/network';
 
 export const printAccounts = async (
@@ -13,33 +13,8 @@ export const printAccounts = async (
     method: 'eth_chainId',
   })) as string;
 
-  const padding = 2;
-
-  const table = new Table({
-    // set width of first column dynamically
-    colWidths: [padding * 2 + accounts.length.toString().length],
-    style: {
-      head: [],
-      border: [],
-      'padding-left': padding,
-      'padding-right': padding,
-    },
-    chars: {
-      mid: '·',
-      'top-mid': '|',
-      'left-mid': ' ·',
-      'mid-mid': '|',
-      'right-mid': '·',
-      left: ' |',
-      'top-left': ' ·',
-      'top-right': '·',
-      'bottom-left': ' ·',
-      'bottom-right': '·',
-      middle: '·',
-      top: '-',
-      bottom: '-',
-      'bottom-mid': '|',
-    },
+  const table = createTable({
+    colWidths: [/* padding * 2 = 4 */ 4 + accounts.length.toString().length],
   });
 
   table.push([
