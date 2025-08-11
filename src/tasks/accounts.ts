@@ -16,5 +16,5 @@ export default task(TASK_ACCOUNTS)
     defaultValue: undefined,
     type: ArgumentType.STRING_WITHOUT_DEFAULT,
   })
-  .setAction(import.meta.resolve('../actions/accounts.js'))
+  .setAction(() => import('../actions/accounts.js'))
   .build();
