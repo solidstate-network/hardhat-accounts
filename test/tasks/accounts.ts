@@ -1,7 +1,8 @@
-import { expect } from 'chai';
+import { getAccounts, getBlock } from '../../src/lib/accounts.js';
+import { TASK_ACCOUNTS } from '../../src/task_names.js';
 import hre from 'hardhat';
-
-const TASK_NAME = 'accounts';
+import assert from 'node:assert/strict';
+import { describe, it } from 'node:test';
 
 const DEFAULT_ADDRESSES = [
   '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
@@ -26,32 +27,26 @@ const DEFAULT_ADDRESSES = [
   '0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199',
 ];
 
-describe(TASK_NAME, () => {
-  it('returns array of account addresses and balances on Hardhat network', async () => {
-    await hre.changeNetwork('hardhat');
+describe(TASK_ACCOUNTS, () => {
+  it('returns addresses and balances of connected accounts', async () => {
+    const network = await hre.network.connect();
+    const block = await getBlock(network);
 
-    const accounts = await hre.run(TASK_NAME);
-
-    expect(accounts).to.have.lengthOf(DEFAULT_ADDRESSES.length);
-
-    for (let i = 0; i < accounts.length; i++) {
-      const { address, balance } = accounts[i];
-
-      // TODO: case sensitivity
-      expect(address.toLowerCase()).to.equal(
-        DEFAULT_ADDRESSES[i].toLowerCase(),
-      );
-      expect(balance).to.equal(10000000000000000000000n);
-    }
+    assert.deepEqual(
+      await hre.tasks.getTask(TASK_ACCOUNTS).run(),
+      await getAccounts(network, block),
+    );
   });
 
-  it('returns array of account addresses and balances on external networks', async () => {
-    await hre.changeNetwork('ethereum');
+  it('returns addresses and balances of arbitrary accounts', async () => {
+    const network = await hre.network.connect();
+    const block = await getBlock(network);
 
-    expect(await hre.run(TASK_NAME)).to.have.lengthOf(DEFAULT_ADDRESSES.length);
+    const addresses = DEFAULT_ADDRESSES.slice(0, 3);
 
-    await hre.changeNetwork('arbitrum');
-
-    expect(await hre.run(TASK_NAME)).to.have.lengthOf(DEFAULT_ADDRESSES.length);
+    assert.deepEqual(
+      await hre.tasks.getTask(TASK_ACCOUNTS).run({ addresses }),
+      await getAccounts(network, block, addresses),
+    );
   });
 });

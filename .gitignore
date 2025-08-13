@@ -1,3 +1,5 @@
-dist/
+.tsbuildinfo
+artifacts/
 cache/
+dist/
 node_modules/
