@@ -15,11 +15,11 @@ pnpm add -D @solidstate/hardhat-accounts
 Load plugin in Hardhat config:
 
 ```javascript
-import HardhatAccounts from '@solidstate/hardhat-accounts';
+import hardhatAccounts from '@solidstate/hardhat-accounts';
 
 const config: HardhatUserConfig = {
   plugins: [
-    HardhatAccounts,
+    hardhatAccounts,
   ],
 };
 ```

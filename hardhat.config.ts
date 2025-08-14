@@ -1,8 +1,8 @@
-import HardhatAccounts from './src/index.js';
+import hardhatAccounts from './src/index.js';
 import type { HardhatUserConfig } from 'hardhat/config';
 
 const config: HardhatUserConfig = {
-  plugins: [HardhatAccounts],
+  plugins: [hardhatAccounts],
   networks: {
     ethereum: {
       type: 'http',
