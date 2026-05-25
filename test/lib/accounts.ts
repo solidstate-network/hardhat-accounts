@@ -31,7 +31,7 @@ const DEFAULT_ADDRESSES = [
 describe('getBlock', () => {
   describe('on hardhat network', () => {
     it('returns latest block', async () => {
-      const network = await hre.network.connect('hardhat');
+      const network = await hre.network.create();
       const block = await getBlock(network, 'latest');
 
       assert.equal(block.number, '0x0');
@@ -39,7 +39,7 @@ describe('getBlock', () => {
     });
 
     it('returns block corresponding to given hex string', async () => {
-      const network = await hre.network.connect('hardhat');
+      const network = await hre.network.create();
       const block = await getBlock(network, '0x0');
 
       assert.equal(block.number, '0x0');
@@ -47,7 +47,7 @@ describe('getBlock', () => {
     });
 
     it('returns block corresponding to given dec string', async () => {
-      const network = await hre.network.connect('hardhat');
+      const network = await hre.network.create();
       const block = await getBlock(network, '0');
 
       assert.equal(block.number, '0x0');
@@ -57,7 +57,7 @@ describe('getBlock', () => {
 
   describe('on external network', () => {
     it('returns latest block', async () => {
-      const network = await hre.network.connect('ethereum');
+      const network = await hre.network.create('ethereum');
       const block = await getBlock(network, 'latest');
 
       assert.match(block.number, /0x[0-9a-f]+/i);
@@ -65,7 +65,7 @@ describe('getBlock', () => {
     });
 
     it('returns block corresponding to given hex string', async () => {
-      const network = await hre.network.connect('ethereum');
+      const network = await hre.network.create('ethereum');
       const block = await getBlock(network, '0x0');
 
       assert.equal(block.number, '0x0');
@@ -73,7 +73,7 @@ describe('getBlock', () => {
     });
 
     it('returns block corresponding to given dec string', async () => {
-      const network = await hre.network.connect('ethereum');
+      const network = await hre.network.create('ethereum');
       const block = await getBlock(network, '0');
 
       assert.equal(block.number, '0x0');
@@ -84,7 +84,7 @@ describe('getBlock', () => {
 
 describe('getAccounts', () => {
   it('returns addresses and balances of connected accounts on hardhat network', async () => {
-    const network = await hre.network.connect('hardhat');
+    const network = await hre.network.create();
     const block = await getBlock(network);
 
     const accounts = await getAccounts(network, block);
@@ -100,7 +100,7 @@ describe('getAccounts', () => {
   });
 
   it('returns addresses and balances of connected accounts on external network', async () => {
-    const network = await hre.network.connect('ethereum');
+    const network = await hre.network.create('ethereum');
     const block = await getBlock(network);
 
     const accounts = await getAccounts(network, block);
@@ -116,7 +116,7 @@ describe('getAccounts', () => {
   });
 
   it('returns addresses and balances of arbitrary accounts list of addresses', async () => {
-    const network = await hre.network.connect('hardhat');
+    const network = await hre.network.create();
     const block = await getBlock(network);
 
     const addresses = DEFAULT_ADDRESSES.slice(0, 3);

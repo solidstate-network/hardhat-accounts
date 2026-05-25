@@ -29,7 +29,7 @@ const DEFAULT_ADDRESSES = [
 
 describe(TASK_ACCOUNTS, () => {
   it('returns addresses and balances of connected accounts', async () => {
-    const network = await hre.network.connect();
+    const network = await hre.network.create();
     const block = await getBlock(network);
 
     assert.deepEqual(
@@ -39,7 +39,7 @@ describe(TASK_ACCOUNTS, () => {
   });
 
   it('returns addresses and balances of arbitrary accounts', async () => {
-    const network = await hre.network.connect();
+    const network = await hre.network.create();
     const block = await getBlock(network);
 
     const addresses = DEFAULT_ADDRESSES.slice(0, 3);

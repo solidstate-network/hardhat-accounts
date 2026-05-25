@@ -11,7 +11,7 @@ const action: NewTaskActionFunction<AccountsActionArguments> = async (
   args,
   hre,
 ) => {
-  const network = await hre.network.connect();
+  const network = await hre.network.create();
 
   // block is used instead of blockNumber for several reasons:
   // * decimal number must be converted to hex for JSON-RPC requests
