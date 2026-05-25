@@ -6,7 +6,7 @@ const config: HardhatUserConfig = {
   networks: {
     ethereum: {
       type: 'http',
-      url: 'https://eth.llamarpc.com',
+      url: 'https://ethereum.publicnode.com',
       accounts: {
         mnemonic: 'test test test test test test test test test test test junk',
       },
