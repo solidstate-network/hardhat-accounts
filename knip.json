@@ -1,3 +1,7 @@
 {
-  "ignoreDependencies": ["ethers", "viem"]
+  "ignoreDependencies": [
+    "ethers",
+    "viem",
+    "release-it"
+  ]
 }
