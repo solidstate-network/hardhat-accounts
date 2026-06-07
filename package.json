@@ -52,7 +52,7 @@
   },
   "peerDependencies": {
     "ethers": "^6.14.1",
-    "hardhat": "^3.7.0",
+    "hardhat": "^3.8.0",
     "viem": "^2.29.4"
   },
   "peerDependenciesMeta": {
